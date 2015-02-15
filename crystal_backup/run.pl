@@ -44,7 +44,7 @@ foreach $product ( keys %$mysql_list ) {
   system($mysql_cmd);
   if ( $? != 0 ) {
     &logger($OUT, "Failed to mysqldump. : $mysql_cmd\n");
-    exit;
+    exit(1);
   }
   
   ## zip
@@ -53,7 +53,7 @@ foreach $product ( keys %$mysql_list ) {
   system($zip_cmd);
   if ( $? != 0 ) {
     &logger($OUT, "Failed to zip. : $zip_cmd\n");
-    exit;
+    exit(1);
   }
   
   ## rsync
@@ -64,7 +64,7 @@ foreach $product ( keys %$mysql_list ) {
   system($rsync_cmd);
   if ( $? != 0 ) {
     &logger($OUT, "Failed to rsync. : $rsync_cmd\n");
-    exit;
+    exit(1);
   }
   
   ## remove
