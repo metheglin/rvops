@@ -10,7 +10,7 @@ use constant {
 };
 require './define.pl';
 
-my $MYSQLDUMP = '/usr/local/mysql/bin/mysqldump';
+my $MYSQLDUMP = '/usr/bin/mysqldump';
 my $ZIP = '/usr/bin/zip';
 my $RSYNC = '/usr/bin/rsync';
 
