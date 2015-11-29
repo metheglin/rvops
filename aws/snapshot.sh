@@ -91,7 +91,11 @@ delete_old_snapshot() {
 
 rotate_log
 
-for instance_id in i-89c4187c
+# i-89c4187c: wagile301
+# i-cf0afc6a: wsaneys301
+# i-e6c54f43: nrv101
+# i-aaed5308: wagile101
+for instance_id in i-89c4187c i-cf0afc6a i-e6c54f43 i-aaed5308
 do
     print_msg "INF:$SHELLDIR/${SHELLNAME} START"
     create_snapshot ${instance_id}
