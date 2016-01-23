@@ -15,7 +15,7 @@ db_list = define["db_list"]
 
 datetime_str = `date +%Y%m%d-%H%M%S`
 datetime_str = datetime_str.strip
-logger.info "Crystal Backup Started #{datetime_str}."
+logger.info "rv-backup Started #{datetime_str}."
 
 db_list.each do |db_name, db_options|
   # 
@@ -77,4 +77,4 @@ db_list.each do |db_name, db_options|
 
 end
 
-logger.info "Crystal Backup Finished #{datetime_str}."
+logger.info "rv-backup Finished #{datetime_str}."

@@ -92,6 +92,10 @@ restore_list.each do |product_name, restore_options|
   `#{drop_db_cmd}`
   `#{create_db_cmd}`
   `#{restore_db_cmd}`
+  if $? != 0
+    logger.error "Failed to restore: #{restore_db_cmd}"
+    exit( 1 )
+  end
 
   # 
   # remove
