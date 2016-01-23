@@ -64,13 +64,21 @@ restore_list.each do |product_name, restore_options|
   # 
   db_options  = restore_options["db"]
   tmp_db_name = db_options["database"] + "_tmp"
+  drop_db_cmd =<<-EOH
+    #{MYSQL} \
+      -u#{db_options["user"]} \
+      -p#{db_options["password"]} \
+      -h#{db_options["host"]} \
+      -P#{db_options["port"]} \
+      -e "drop database #{db_options['database']};"
+  EOH
   create_db_cmd = <<-EOH
     #{MYSQL} \
       -u#{db_options["user"]} \
       -p#{db_options["password"]} \
       -h#{db_options["host"]} \
       -P#{db_options["port"]} \
-      -e "create database #{tmp_db_name}"
+      -e "create database #{db_options['database']};"
   EOH
   restore_db_cmd =<<-EOH
     #{MYSQL} \
@@ -78,29 +86,12 @@ restore_list.each do |product_name, restore_options|
       -p#{db_options["password"]} \
       -h#{db_options["host"]} \
       -P#{db_options["port"]} \
-      #{tmp_db_name} \
+      #{db_options['database']} \
       < #{unzip_file_path}
   EOH
-  drop_db_cmd =<<-EOH
-    #{MYSQL} \
-      -u#{db_options["user"]} \
-      -p#{db_options["password"]} \
-      -h#{db_options["host"]} \
-      -P#{db_options["port"]} \
-      -e "drop database #{db_options['database']}"
-  EOH
-  rename_db_cmd =<<-EOH
-    #{MYSQL} \
-      -u#{db_options["user"]} \
-      -p#{db_options["password"]} \
-      -h#{db_options["host"]} \
-      -P#{db_options["port"]} \
-      -e "rename database #{tmp_db_name} to #{db_options['database']}"
-  EOH
+  `#{drop_db_cmd}`
   `#{create_db_cmd}`
   `#{restore_db_cmd}`
-  `#{drop_db_cmd}`
-  `#{rename_db_cmd}`
 
   # 
   # remove
