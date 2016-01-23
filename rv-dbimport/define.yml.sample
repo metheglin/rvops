@@ -1,0 +1,11 @@
+
+common_zip_pass: &common_zip_pass your_password
+restore_list:
+  product1:
+    zip_password: *common_zip_pass
+    db:
+      user: db_user
+      password: db_pass
+      host: db_host
+      port: 3306
+      database: db1

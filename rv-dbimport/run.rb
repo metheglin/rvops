@@ -7,6 +7,7 @@ EXEC_LOG_PATH = File.dirname( __FILE__ ) + "/logs/exec.log"
 
 UNZIP = '/usr/bin/unzip'
 MYSQL = '/usr/bin/mysql'
+RM    = '/bin/rm'
 
 logger  = Logger.new(EXEC_LOG_PATH)
 define  = YAML.load_file( "./define.yml" )
@@ -31,7 +32,7 @@ restore_list.each do |product_name, restore_options|
   bucket  = "rv-backup"
 
   zip_file_path   = "#{TMP_PATH}#{product_name}.#{date_str}.sql.zip"
-  unzip_file_path = "#{TMP_PATH}#{product_name}.#{date_str}.sql"
+  unzip_file_path = "#{TMP_PATH}#{product_name}.#{date_str}*.sql"
   s3.list_objects(
     bucket: bucket,
     prefix: "#{product_name}/#{product_name}.#{date_str}"
@@ -104,8 +105,7 @@ restore_list.each do |product_name, restore_options|
   # 
   # remove
   # 
-  File.unlink(zip_file_path)
-  File.unlink(unzip_file_path)
+  `#{RM} -f #{TMP_PATH}*`
 
 end
 
