@@ -51,7 +51,7 @@ restore_list.each do |product_name, restore_options|
   # unzip
   # 
   unzip_cmd = <<-EOH
-    #{UNZIP} -f -P #{restore_options["zip_password"]} #{zip_file_path}
+    #{UNZIP} -o -P #{restore_options["zip_password"]} #{zip_file_path}
   EOH
   `#{unzip_cmd}`
   if $? != 0
