@@ -47,7 +47,7 @@ db_list.each do |db_name, db_options|
   zip_cmd = <<-EOH
     #{ZIP} -P #{db_options["zip_password"]} #{tmp_zip_file_path} #{tmp_file_path}
   EOH
-  `zip_cmd`
+  `#{zip_cmd}`
   if $? != 0
     logger.error "Failed to zip: #{zip_cmd}"
     exit( 1 )
@@ -56,12 +56,16 @@ db_list.each do |db_name, db_options|
   # 
   # backup
   # 
+  Aws.config.update(
+    profile: "rv-backup",
+    region: "ap-northeast-1",
+  )
   s3 = Aws::S3::Client.new
   File.open( tmp_zip_file_path ) do |file|
     s3.put_object(
       bucket: "rv-backup",
       body: file,
-      key: tmp_zip_file_name
+      key: "#{db_name}/#{tmp_zip_file_name}"
     )
   end
 
