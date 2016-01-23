@@ -51,7 +51,7 @@ restore_list.each do |product_name, restore_options|
   # unzip
   # 
   unzip_cmd = <<-EOH
-    #{UNZIP} -P #{restore_options["zip_password"]} #{zip_file_path}
+    #{UNZIP} -f -P #{restore_options["zip_password"]} #{zip_file_path}
   EOH
   `#{unzip_cmd}`
   if $? != 0
@@ -80,6 +80,8 @@ restore_list.each do |product_name, restore_options|
       -P#{db_options["port"]} \
       -e "create database #{db_options['database']};"
   EOH
+  unzip_file_name = `file #{unzip_file_path} | tail | cut -d":" -f1`
+  unzip_file_name = unzip_file_name.strip
   restore_db_cmd =<<-EOH
     #{MYSQL} \
       -u#{db_options["user"]} \
@@ -87,7 +89,7 @@ restore_list.each do |product_name, restore_options|
       -h#{db_options["host"]} \
       -P#{db_options["port"]} \
       #{db_options['database']} \
-      < #{unzip_file_path}
+      < #{unzip_file_name}
   EOH
   `#{drop_db_cmd}`
   `#{create_db_cmd}`
