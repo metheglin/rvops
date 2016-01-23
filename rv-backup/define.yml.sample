@@ -1,0 +1,17 @@
+
+&common_zip_pass common_zip_pass: your_password
+db_list :
+  db1:
+    user: db_user
+    password: db_pass
+    host: db_host
+    port: 3306
+    database: db1
+    zip_password: *common_zip_pass
+  db2:
+    user: db_user
+    password: db_pass
+    host: db_host
+    port: 3306
+    database: db2
+    zip_password: *common_zip_pass
