@@ -25,10 +25,10 @@ db_list.each do |db_name, db_options|
   tmp_file_path = TMP_PATH + tmp_file_name
   dump_cmd = <<-EOH
     #{MYSQL_DUMP} \
-      -u #{db_options["user"]} \
-      -p #{db_options["password"]} \
-      -h #{db_options["host"]} \
-      -P #{db_options["port"]} \
+      -u#{db_options["user"]} \
+      -p#{db_options["password"]} \
+      -h#{db_options["host"]} \
+      -P#{db_options["port"]} \
       #{db_options["database"]} \
       > #{tmp_file_path}
   EOH
